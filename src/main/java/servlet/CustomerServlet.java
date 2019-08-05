@@ -14,6 +14,8 @@ public class CustomerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Gson gson = new Gson();
         String json = gson.toJson(CarService.getInstance().getAllCars());
+        resp.getWriter().write(json);
+        resp.setStatus(HttpServletResponse.SC_OK);
     }
 
     @Override

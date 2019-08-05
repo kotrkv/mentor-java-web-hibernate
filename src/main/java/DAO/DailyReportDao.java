@@ -21,4 +21,13 @@ public class DailyReportDao {
         session.close();
         return dailyReports;
     }
+
+    public DailyReport getLastDailyReport() {
+        Transaction transaction = session.beginTransaction();
+//        DailyReport dailyReports = session.createQuery("FROM DailyReport").list();
+        DailyReport dailyReports = null;
+        transaction.commit();
+        session.close();
+        return dailyReports;
+    }
 }

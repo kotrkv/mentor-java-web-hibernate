@@ -1,7 +1,13 @@
 package service;
 
+import DAO.CarDao;
+import DAO.DailyReportDao;
+import model.Car;
+import model.DailyReport;
 import org.hibernate.SessionFactory;
 import util.DBHelper;
+
+import java.util.List;
 
 public class CarService {
 
@@ -20,5 +26,7 @@ public class CarService {
         return carService;
     }
 
-
+    public List<Car> getAllCars() {
+        return new CarDao(sessionFactory.openSession()).getAllCars();
+    }
 }
