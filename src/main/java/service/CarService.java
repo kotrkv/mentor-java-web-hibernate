@@ -29,4 +29,8 @@ public class CarService {
     public List<Car> getAllCars() {
         return new CarDao(sessionFactory.openSession()).getAllCars();
     }
+
+    public void create(Car car) {
+        new CarDao(sessionFactory.openSession()).create(car);
+    }
 }

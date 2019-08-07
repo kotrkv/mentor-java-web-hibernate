@@ -17,6 +17,7 @@ public class CarDao {
 
     public void create(Car car) {
         Transaction transaction = session.getTransaction();
+        transaction.begin();
         session.saveOrUpdate(car);
         transaction.commit();
     }
