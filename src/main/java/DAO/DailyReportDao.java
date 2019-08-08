@@ -1,11 +1,10 @@
 package DAO;
 
-import model.Car;
 import model.DailyReport;
 import model.SaleCar;
-import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 
 import java.util.List;
 
@@ -41,8 +40,11 @@ public class DailyReportDao {
 
     public DailyReport getLastDailyReport() {
         Transaction transaction = session.beginTransaction();
-//        DailyReport dailyReports = session.createQuery("FROM DailyReport").list();
-        DailyReport dailyReports = null;
+        //DailyReport dailyReports = session.createQuery("FROM DailyReport ORDER BY id DESC");
+        DailyReport dailyReports = (DailyReport) session.createCriteria(DailyReport.class)
+                .addOrder(Order.asc("id"))
+                .setFirstResult(1)
+                .uniqueResult();
         transaction.commit();
         session.close();
         return dailyReports;
