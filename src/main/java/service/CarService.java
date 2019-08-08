@@ -33,4 +33,8 @@ public class CarService {
     public void create(Car car) {
         new CarDao(sessionFactory.openSession()).create(car);
     }
+
+    public void sale(String brand, String model, String licensePlate) {
+        new CarDao(sessionFactory.openSession()).sale(brand, model, licensePlate);
+    }
 }

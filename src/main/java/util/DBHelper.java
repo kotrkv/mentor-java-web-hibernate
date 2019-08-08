@@ -1,6 +1,8 @@
 package util;
 
 import model.Car;
+import model.DailyReport;
+import model.SaleCar;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -29,6 +31,8 @@ public class DBHelper {
     private static Configuration getMySqlConfiguration() {
         Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(Car.class);
+        configuration.addAnnotatedClass(DailyReport.class);
+        configuration.addAnnotatedClass(SaleCar.class);
 
         configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
@@ -36,7 +40,7 @@ public class DBHelper {
         configuration.setProperty("hibernate.connection.username", "root");
         configuration.setProperty("hibernate.connection.password", "root");
         configuration.setProperty("hibernate.show_sql", "true");
-        configuration.setProperty("hibernate.hbm2ddl.auto", "create");
+        //configuration.setProperty("hibernate.hbm2ddl.auto", "create");
         return configuration;
     }
 

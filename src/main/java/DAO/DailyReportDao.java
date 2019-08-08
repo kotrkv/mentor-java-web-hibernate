@@ -1,6 +1,9 @@
 package DAO;
 
+import model.Car;
 import model.DailyReport;
+import model.SaleCar;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -12,6 +15,20 @@ public class DailyReportDao {
 
     public DailyReportDao(Session session) {
         this.session = session;
+    }
+
+    public void create() {
+        Transaction transaction = session.beginTransaction();
+        List<SaleCar> saleCars = session.createQuery("FROM SaleCar").list();
+
+        long countSaleCars = saleCars.stream().count();
+        long sumSaleCars = saleCars.stream().mapToLong(SaleCar::getPrice).sum();
+
+        DailyReport dailyReport = new DailyReport(sumSaleCars, countSaleCars);
+        session.saveOrUpdate(dailyReport);
+        session.createSQLQuery("DELETE FROM sale_cars").executeUpdate();
+        transaction.commit();
+        session.close();
     }
 
     public List<DailyReport> getAllDailyReport() {

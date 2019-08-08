@@ -28,8 +28,11 @@ public class DailyReportService {
         return new DailyReportDao(sessionFactory.openSession()).getAllDailyReport();
     }
 
-
     public DailyReport getLastReport() {
         return null;
+    }
+
+    public void create() {
+        new DailyReportDao(sessionFactory.openSession()).create();
     }
 }
