@@ -20,6 +20,14 @@ public class CustomerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        try {
+            String brand = req.getParameter("brand");
+            String model = req.getParameter("model");
+            String licensePlate = req.getParameter("licensePlate");
+            CarService.getInstance().sale(brand, model, licensePlate);
+            resp.setStatus(HttpServletResponse.SC_OK);
+        } catch (Exception e) {
+            resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        }
     }
 }

@@ -2,7 +2,6 @@ package DAO;
 
 import model.Car;
 import model.DailyReport;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -24,20 +23,14 @@ public class CarDao {
     }
 
     public List<Car> getAllCars() {
-        Transaction transaction = session.getTransaction();
-        transaction.begin();
+        Transaction transaction = session.beginTransaction();
         List<Car> cars = session.createQuery("FROM Car").list();
         transaction.commit();
         session.close();
         return cars;
     }
 
-    public Integer getCountOfCars(String brand) {
-        Transaction transaction = session.getTransaction();
-        transaction.begin();
-        Query query = session.createQuery("FROM Car WHERE brand = :brand");
-        query.setParameter("brand", brand);
-        Integer count = query.list().size();
-        return count;
+    public Long getCountOfCars(String brand) {
+        return 0L;
     }
 }
