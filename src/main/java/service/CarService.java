@@ -13,9 +13,12 @@ public class CarService {
 
     private static CarService carService;
 
+    private CarDao carDao;
+
     private SessionFactory sessionFactory;
 
     private CarService(SessionFactory sessionFactory) {
+//        this.carDao = new CarDao();
         this.sessionFactory = sessionFactory;
     }
 
@@ -31,6 +34,10 @@ public class CarService {
     }
 
     public void create(Car car) {
-        new CarDao(sessionFactory.openSession()).create(car);
+        if (new CarDao(sessionFactory.openSession()).getCountOfCars(car.getBrand()) >= 10) {
+               throw new RuntimeException("Машин много");
+        } else {
+            new CarDao(sessionFactory.openSession()).create(car);
+        }
     }
 }
