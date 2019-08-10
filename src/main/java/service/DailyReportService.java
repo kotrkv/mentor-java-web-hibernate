@@ -35,4 +35,8 @@ public class DailyReportService {
     public void create() {
         new DailyReportDao(sessionFactory.openSession()).create();
     }
+
+    public void deleteAll() {
+        new DailyReportDao(sessionFactory.openSession()).deleteAll();
+    }
 }

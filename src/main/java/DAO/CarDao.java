@@ -1,16 +1,13 @@
 package DAO;
 
 import model.Car;
-import model.DailyReport;
 import model.SaleCar;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
-import java.util.Optional;
 
 public class CarDao {
 
@@ -38,7 +35,7 @@ public class CarDao {
         Transaction transaction = session.getTransaction();
         transaction.begin();
         Integer count = session.createCriteria(Car.class)
-                .add(Restrictions.eq("brend", brand)).list().size();
+                .add(Restrictions.eq("brand", brand)).list().size();
         transaction.commit();
         return count;
     }
@@ -52,22 +49,22 @@ public class CarDao {
                 .add(Restrictions.eq("model", model))
                 .add(Restrictions.eq("licensePlate", licensePlate));
 
-        List<Car> cars = criteria.list();
-        Optional<Car> optionalCar = cars.stream()
-                .findAny();
+        final Car car = (Car) criteria.uniqueResult();
 
-        if (optionalCar.isPresent()) {
-            SaleCar saleCar = new SaleCar(optionalCar.get().getBrand()
-                    , optionalCar.get().getModel()
-                    , optionalCar.get().getLicensePlate()
-                    , optionalCar.get().getPrice());
-            session.saveOrUpdate(saleCar);
-            session.delete(optionalCar.get());
-            transaction.commit();
-            session.close();
-        } else {
-            transaction.rollback();
-            session.close();
-        }
+        SaleCar saleCar = new SaleCar(car.getBrand()
+                , car.getModel()
+                , car.getLicensePlate()
+                , car.getPrice());
+        session.saveOrUpdate(saleCar);
+        session.delete(car);
+        transaction.commit();
+        session.close();
+    }
+
+    public void deleteAll() {
+        Transaction transaction = session.beginTransaction();
+        session.createQuery("DELETE Car").executeUpdate();
+        transaction.commit();
+        session.close();
     }
 }

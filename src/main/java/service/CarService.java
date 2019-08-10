@@ -44,4 +44,8 @@ public class CarService {
     public void sale(String brand, String model, String licensePlate) {
         new CarDao(sessionFactory.openSession()).sale(brand, model, licensePlate);
     }
+
+    public void deleteAll() {
+        new CarDao(sessionFactory.openSession()).deleteAll();
+    }
 }
